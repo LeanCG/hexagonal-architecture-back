@@ -23,14 +23,37 @@ export class ExpressUserController {
     }
 
     async create(req:Request, res:Response){
-        const {createdAt,email,id,name} = req.body as {
-                    id: string;
-                    name: string;
-                    email:string;
-                    createdAt:string;
-                }
-                await ServiceContainer.user.create.run(req.body)
+        const {id,uid,email,password,typestate,createdAt} = req.body as {
+            id: number;
+            uid: string;
+            email:string;
+            password: string;
+            typestate: number;
+            createdAt:string;
+        }
+        await ServiceContainer.user.create.run(id,uid,email,password,typestate,new Date(createdAt))
+
+        return res.status(201).send();
     }
     
+    async edit(req:Request, res:Response){
+        const {id,uid,email,password,typestate,createdAt} = req.body as {
+            id: number;
+            uid: string;
+            email:string;
+            password: string;
+            typestate: number;
+            createdAt:string;
+        }
+        await ServiceContainer.user.create.run(id,uid,email,password,typestate,new Date(createdAt))
+
+        return res.status(204).send();
+    }
+
+    async delete(req: Request, res: Response){
+        await ServiceContainer.user.delete.run(parseInt(req.params.id));
+        
+        return res.status(204).send();
+    }
 
 }

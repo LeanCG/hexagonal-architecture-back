@@ -16,7 +16,7 @@ uid: string,
 email:string,
 password: string,
 typestate: number,
-createdAt: Date
+created_at: Date
 }
 
 export class PostgresUserRepository implements UserRepository {
@@ -40,7 +40,10 @@ export class PostgresUserRepository implements UserRepository {
         text: "SELECT * FROM users;"
     };
     const result = await this.client.query<PostgresUser>(query)
-    return result.rows.map((row)=>new User(new UserId(row.id),new UserUid(row.uid),new Email( row.email),new UserPasword( row.password),new TypeState(row.typestate),new UserCreateAt( row.createdAt)))
+    
+    return result.rows.map(
+        (row)=> this.mapToDomain(row)
+        )
     }
     
     async edit(user: User): Promise<void> {
@@ -63,7 +66,7 @@ export class PostgresUserRepository implements UserRepository {
         }
         
         const row = result.rows[0];
-        return new User(new UserId(row.id),new UserUid(row.uid), new Email(row.email), new UserPasword(row.password), new TypeState(row.typestate), new UserCreateAt(row.createdAt)) ;
+        return this.mapToDomain(row);
     }
 
     async delete(id: UserId): Promise<void> {
@@ -74,4 +77,13 @@ export class PostgresUserRepository implements UserRepository {
 
         await this.client.query(query);
     }
-}
+
+    private mapToDomain(user: PostgresUser):User{
+        return new User(
+            new UserId(user.id),
+            new UserUid(user.uid), 
+            new Email(user.email), 
+            new UserPasword(user.password), 
+            new TypeState(user.typestate), 
+            new UserCreateAt(user.created_at))}
+    }
