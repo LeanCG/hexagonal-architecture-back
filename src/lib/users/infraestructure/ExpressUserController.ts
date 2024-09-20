@@ -1,14 +1,14 @@
-import { Request, Response} from "express";
+import { NextFunction, Request, Response} from "express";
 import { ServiceContainer } from "../../shared/infraestructure/SrviceContainer";
 import { UserNotFoudError } from "../domain/UserNotFoudError";
 
 export class ExpressUserController {
-    async getAll(req: Request, res:Response){
+    async getAll(req: Request, res:Response, next:NextFunction){
         const users = await ServiceContainer.user.getAll.run();
         return res.json(users).status(200);
     }
 
-    async getOneById(req: Request, res:Response){
+    async getOneById(req: Request, res:Response, next:NextFunction){
         try{
         const user = await ServiceContainer.user.getOneById.run(parseInt(req.params.id));
 
@@ -22,7 +22,7 @@ export class ExpressUserController {
         }
     }
 
-    async create(req:Request, res:Response){
+    async create(req:Request, res:Response, next:NextFunction){
         const {id,uid,email,password,typestate,createdAt} = req.body as {
             id: number;
             uid: string;
@@ -36,7 +36,7 @@ export class ExpressUserController {
         return res.status(201).send();
     }
     
-    async edit(req:Request, res:Response){
+    async edit(req:Request, res:Response, next:NextFunction){
         const {id,uid,email,password,typestate,createdAt} = req.body as {
             id: number;
             uid: string;
@@ -50,7 +50,7 @@ export class ExpressUserController {
         return res.status(204).send();
     }
 
-    async delete(req: Request, res: Response){
+    async delete(req: Request, res: Response, next:NextFunction){
         await ServiceContainer.user.delete.run(parseInt(req.params.id));
         
         return res.status(204).send();
