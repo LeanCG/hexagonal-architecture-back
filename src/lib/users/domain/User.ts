@@ -27,4 +27,15 @@ export class User {
         this.idTypeState = idTypeState
         this.createAt= date
     };    
+
+    public mapToPrimitives(){
+        return{
+        "id": this.id.value,
+        "uid": this.uid.value,
+        "email":this.email.value,
+        "password": this.password.value,
+        "typestate": this.idTypeState.value,
+        "createdAt": this.createAt.value
+        };
+    }
 }
