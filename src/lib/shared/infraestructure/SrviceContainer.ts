@@ -1,10 +1,10 @@
 import { UserGetAll } from "../../users/aplication/User/UserGetAll";
-import { InMemoryRepository } from "../../users/infraestructure/InMemoryRepository";
 import {UserGetOneById} from "../../users/aplication/User/UserGetOneById"
 import { UserCreate } from "../../users/aplication/User/UserCreate";
 import {EditUser} from "../../users/aplication/User/UserEdit"
 import { UserDelete } from "../../users/aplication/User/userDelete";
-const userRepository = new InMemoryRepository();
+import { UserORMRepository } from "../../users/infraestructure/orm/repositories/OrmUserRepository";
+const userRepository = new UserORMRepository();
 
 export const ServiceContainer = {
     user:{

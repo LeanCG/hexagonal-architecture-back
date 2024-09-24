@@ -1,7 +1,6 @@
 import { Pool, Query } from "pg";
 import { UserRepository } from "../domain/UserRepository";
 import { User } from "../domain/User";
-import { text } from "stream/consumers";
 import { UserId } from "../domain/UserId";
 import { UserUid } from "../domain/UserUid";
 import { Email } from "../domain/UserEmail";
