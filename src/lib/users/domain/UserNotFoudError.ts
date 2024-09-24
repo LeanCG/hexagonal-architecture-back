@@ -1,0 +1,1 @@
+export class UserNotFoudError extends Error{}
