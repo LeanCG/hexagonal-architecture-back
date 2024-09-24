@@ -36,20 +36,20 @@ export class PostgresUserRepository implements UserRepository {
         await this.client.query(query)
     }
     async getAll(): Promise<User[]> {
-    const query = {
-        text: "SELECT * FROM users;"
-    };
-    const result = await this.client.query<PostgresUser>(query)
-    
-    return result.rows.map(
-        (row)=> this.mapToDomain(row)
-        )
+        const query = {
+            text: "SELECT * FROM users;"
+        };
+        const result = await this.client.query<PostgresUser>(query)
+        
+        return result.rows.map(
+            (row)=> this.mapToDomain(row)
+            )
     }
     
     async edit(user: User): Promise<void> {
         const query = {
-            text: "SET UPDATE users ",
-            value: [],
+            text: "SET UPDATE users SET password = $1, email = $2 typestate_id WHERE id=$3",
+            value: [user.email.value, user.password.value,user.idTypeState.value  ],
         }
     }
 
