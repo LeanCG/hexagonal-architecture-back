@@ -7,10 +7,9 @@ interface UserAttributes  {
     uid: string,
     email:string,
     password: string,
-    typestate: number,
-    created_at: Date
+    typestate: number
     }
-interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'uid' | 'typestate' | 'created_at'> {}
+interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'uid' | 'typestate'> {}
 
 class UserModel extends Model <UserAttributes, UserCreationAttributes> implements UserAttributes {
     public id!:number;
@@ -18,7 +17,6 @@ class UserModel extends Model <UserAttributes, UserCreationAttributes> implement
     public email!:string;
     public password!: string;
     public typestate!: number;
-    public created_at!: Date
 }
 
 
@@ -32,7 +30,6 @@ UserModel.init(
         },
         uid: {
             type: DataTypes.STRING(255),
-            primaryKey: true,
             allowNull: false
         },
         email: {
@@ -48,10 +45,7 @@ UserModel.init(
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        created_at: {
-            type: DataTypes.DATE,
-            allowNull:true,
-        }
+    
     },
     {
         sequelize, // la instancia de sequelize
@@ -61,7 +55,7 @@ UserModel.init(
 );
 
 // Sincronización del modelo
-UserModel.sync({ alter: true })
+UserModel.sync({ alter: true, force: true })
     .then(() => {
         console.log("User table created");
     })
